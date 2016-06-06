@@ -15,20 +15,19 @@ end
 
 def game_over? board, attempts, username
   user_id = User.where(username: username).ids.first.to_s
+  user_record = Record.where(user_id: user_id).first
   if (board.include? "_") && (attempts > 0)
     false
   elsif attempts == 0
     puts "You ran out of attempts!"
-    loss = Record.where(user_id: user_id).first_or_create!
-    loss.losses += 1
-    loss.save!
+    user_record.losses += 1
+    user_record.save!
     show_record username
     true
   else
     puts "You win!"
-    win = Record.where(user_id: user_id).first_or_create!
-    win.wins += 1
-    win.save!
+    user_record.wins += 1
+    user_record.save!
     show_record username
     true
   end
@@ -63,8 +62,7 @@ def record_move l, answer, grid, tries
   end
 
   unless answer.include? l
-    # tries -= 1
-    tries = tries - 1
+    tries -= 1
   end
 
   return tries
@@ -79,8 +77,9 @@ end
 
 def show_record username
   user = User.where(username: username).first_or_create!
-  wins = Record.where(user_id: user.id.to_s).first_or_create!.wins
-  losses = Record.where(user_id: user.id.to_s).first_or_create!.losses
+  user_record = Record.where(user_id: user.id.to_s).first_or_create!
+  wins = user_record.wins
+  losses = user_record.losses
   puts "#{username}'s record: #{wins} - wins and #{losses} - losses"
 end
 
