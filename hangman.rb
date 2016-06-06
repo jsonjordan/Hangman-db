@@ -14,7 +14,7 @@ def player_wants_to_quit?
 end
 
 def game_over? board, attempts, username
-  user_id = User.where(username: username).ids.first.to_s
+  user_id = User.where(username: username).first.id.to_s
   user_record = Record.where(user_id: user_id).first
   if (board.include? "_") && (attempts > 0)
     false
