@@ -5,10 +5,10 @@ require "./lib/all"
 def player_wants_to_quit?
   puts "Do you want to keep playing (y/n)?"
   input = gets.chomp
-  # input == "n"
   if input == "n"
     true
   else
+    system "clear"
     false
   end
 end
@@ -73,6 +73,8 @@ end
 def get_username
   puts "What name do you want to go by?"
   username = gets.chomp
+  system "clear"
+  username
 end
 
 def show_record username
@@ -82,6 +84,7 @@ def show_record username
   puts "#{username}'s record: #{wins} - wins and #{losses} - losses"
 end
 
+system "clear"
 puts "Welcome to Hangman!"
 username = get_username
 show_record username
